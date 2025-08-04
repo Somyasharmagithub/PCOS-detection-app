@@ -156,20 +156,10 @@ X_train, X_test, y_train, y_test = train_test_split(X_final, y, test_size=0.2, r
 
 X_train.shape
 
-smote = SMOTE(random_state=42)
-X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-
-plt.figure(figsize=(15, 15))
-sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
-plt.title("Correlation heatmap")
-plt.show()
-
-"""idk did we need to do heatmap"""
-
 from sklearn.linear_model import LogisticRegression
 
 model = LogisticRegression(max_iter=1000)
-model.fit(X_train_resampled, y_train_resampled)
+model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 
@@ -199,7 +189,7 @@ models = {
 
 cv = {}
 for model_name, model in models.items():
-    cv[model_name] = cross_val_score(model, X_train_resampled, y_train_resampled, cv=5, scoring='accuracy')
+    cv[model_name] = cross_val_score(model, X_train, y_train, cv=5, scoring='accuracy')
     print(f"{model_name} CV Accuracy: {cv[model_name].mean():.4f}")
 
 # Initializing models
@@ -236,9 +226,9 @@ random_search_dt = RandomizedSearchCV(estimator=decision_tree, param_distributio
 random_search_rf = RandomizedSearchCV(estimator=random_forest, param_distributions=param_grid_rf, n_iter=20, cv=5, scoring="accuracy", random_state=42)
 random_search_xgb = RandomizedSearchCV(estimator=xgboost_classifier, param_distributions=param_grid_xgb, n_iter=20, cv=5, scoring="accuracy", random_state=42)
 
-random_search_dt.fit(X_train_resampled, y_train_resampled)
-random_search_rf.fit(X_train_resampled, y_train_resampled)
-random_search_xgb.fit(X_train_resampled, y_train_resampled)
+random_search_dt.fit(X_train, y_train)
+random_search_rf.fit(X_train, y_train)
+random_search_xgb.fit(X_train, y_train)
 
 random_search_dt.best_estimator_
 
