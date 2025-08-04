@@ -19,10 +19,7 @@ from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-from google.colab import drive
-drive.mount('/content/drive')
-
-df = pd.read_csv('/content/data without infertility _final.csv')
+df = pd.read_csv('data without infertility_final.csv')
 
 df.shape
 
